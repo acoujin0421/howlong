@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>교육경력 계산기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .container {
+            width: 50%;
+            min-width: 300px;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h2 {
+            color: #4a86e8;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        input {
+            width: 30%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4a86e8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #3a6db1;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>교육경력 계산기</h2>
+        <label for="startDate">최초 임용일: <input type="date" id="startDate"></label>
+        <label for="referenceDate">기준일: <input type="date" id="referenceDate" value="<!--오늘날짜-->"></label>
+        <label for="additionalYears">추가 교육 경력 (년): <input type="number" id="additionalYears" min="0" value="0"></label>
+        <label for="additionalMonths">추가 교육 경력 (월): <input type="number" id="additionalMonths" min="0" value="0"></label>
+        <button onclick="calculateExperience()">경력 계산</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateExperience() {
+            var startDate = new Date(document.getElementById('startDate').value);
+            var referenceDate = new Date(document.getElementById('referenceDate').value);
+            var additionalYears = parseInt(document.getElementById('additionalYears').value);
+            var additionalMonths = parseInt(document.getElementById('additionalMonths').value);
+
+            if (isNaN(startDate.getTime()) || isNaN(referenceDate.getTime())) {
+                alert('날짜를 정확하게 입력해주세요.');
+                return;
+            }
+
+            var totalMonths = (referenceDate.getFullYear() - startDate.getFullYear()) * 12;
+            totalMonths -= startDate.getMonth();
+            totalMonths += referenceDate.getMonth();
+
+            totalMonths += (additionalYears * 12) + additionalMonths;
+
+            var years = Math.floor(totalMonths / 12);
+            var months = totalMonths % 12;
+
+            document.getElementById('result').innerHTML = '선생님의 교육경력은 ' + years + '년 ' + months + '월 입니다.';
+        }
+
+        // Set the reference date to today's date
+        document.getElementById('referenceDate').valueAsDate = new Date();
+    </script>
+</body>
+</html>
